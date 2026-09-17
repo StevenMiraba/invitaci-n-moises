@@ -1094,46 +1094,39 @@ document.getElementById("finalConfirmBtn")
         boton.innerText = "Registrando...";
 
         fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+        nombre: nombreInvitado
+    })
+})
+.then(function() {
 
-            method: "POST",
+    closeModal("finalModal");
 
-            mode: "no-cors",
+    document.getElementById("successModal")
+        .classList.add("active");
 
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
+    document.getElementById("rsvpForm")
+        .reset();
 
-            body: JSON.stringify({
-                nombre: nombreInvitado
-            })
+    boton.disabled = false;
+    boton.innerText = "Sí, confirmar 🎉";
 
-        })
-        .then(function() {
+})
+.catch(function(error) {
 
-            closeModal("finalModal");
+    console.error(error);
 
-            document.getElementById("successModal")
-                .classList.add("active");
+    alert("Hubo un problema. Intenta nuevamente.");
 
-            document.getElementById("rsvpForm")
-                .reset();
+    boton.disabled = false;
+    boton.innerText = "Sí, confirmar 🎉";
 
-            boton.disabled = false;
-            boton.innerText = "Sí, confirmar 🎉";
-
-        })
-        .catch(function(error) {
-
-            console.error(error);
-
-            alert(
-                "Hubo un problema. Intenta nuevamente."
-            );
-
-            boton.disabled = false;
-            boton.innerText = "Sí, confirmar 🎉";
-
-        });
+});
 
     });
 
